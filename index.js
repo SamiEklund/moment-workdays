@@ -1,7 +1,7 @@
 
 const { workDaysLeftInWeek, workDaysPassedInWeek } = require('./src/utils')
 
-function workDayDiff(date) {
+function workDayDiff (date) {
   const dateStart = date.clone().startOf('week')
   const thisStart = this.clone().startOf('week')
   const weekDiff = (dateStart.diff(thisStart, 'weeks') - 1)
