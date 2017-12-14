@@ -1,15 +1,6 @@
-env:
-  global:
-  - secure: ryjFL3kmdMWlXp0MS4JPqVGguIyd2Kte+clWeSVzRWB8Zo3YxAZ+M+eD9Y/hQgr/IQQdcQscFFKz8IbdmVv54KNAxeaWO0nRnr5TyPqBgX1548o2LZvuY6aIKgGlTYME+eaGRAR1lnEVece70YcVM03wg/l75Xx8/M7uqXmMkdIjCfJu1ZSH2Rt/kV6jkBsrWMGUw0VtDtc42HdqLg5gbRGatXBl7zM8s67XfKWE2cszZLveImOsmSgPKPmGw3yb+bYmUoRJZIcfe5VXDzNdueGVI48oxeGJpA6Dz+eZA0t5X9+bloZJvnzSWT4jqsU+P0/NxIBU4TJZmqSKolTFaRe6cWg2TM4ULtfqQmoxAlwbWDKziGjd8dtC6/IrR6jw6w2wgJGRzdSE4U2jEZwGaeTqZ+33K/ue0hiHI1ixUTAH/gXobUuNDvl4wWzQAYKsxABwjheERuFUkA5hjbJZpuujG9llxeBAipT8boTjl5uVl9JrHfE+WQ1xJgCf3tvk/hdBglLJ63rIe1ZJUU4V6OdjwqpsmZRKoI8Ry/0s1/T1k55BeBtBcB/lmEI18auj48/fWGCBIRe55wCXuNlKn2u0WmhRGrjruBAnoq2OdCZhXsDO+bJKNFkzDx3D5EZZSekq+kVnYRCBD94ofB1KpaQpfYY65Ij4J3L0euCx5nU=
 language: node_js
 node_js:
 - node
-before_script:
-- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-- chmod +x ./cc-test-reporter
-- "./cc-test-reporter before-build"
-after_script:
-- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 deploy:
   provider: npm
   email: jdhamlik@gmail.com
