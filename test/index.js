@@ -20,6 +20,13 @@ describe('moment', () => {
       moment().day('Monday').diff(
         moment().day('Friday'), 'workdays').should.equal(4)
     })
+    
+    it('calculates the work days correctly on weekends', () => {
+      moment().day('Sunday').diff(
+        moment().day('Monday'), 'workdays').should.equal(1)
+      moment().day('Saturday').subtract(7, 'days').diff(
+        moment().day('Monday'), 'workdays').should.equal(1)
+    })
 
     it('calculates the work days between two dates crossing weekends', () => {
       moment().day('Tuesday').diff(
