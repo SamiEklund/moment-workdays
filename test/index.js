@@ -29,5 +29,16 @@ describe('moment', () => {
       moment().day('Monday').diff(
         moment().day('Friday').add(14, 'days'), 'workdays').should.equal(14)
     })
+
+    it('calculates negative work days remaining', () => {
+      moment().day('Friday').diff(moment().day('Tuesday'),
+        'workdays').should.equal(-3)
+      moment().day('Friday').diff(moment().day('Tuesday').subtract(7, 'days'),
+        'workdays').should.equal(-8)
+      moment().day('Monday').diff(moment().day('Friday').subtract(14, 'days'),
+        'workdays').should.equal(-6)
+      moment().day('Friday').diff(moment().day('Monday').subtract(14, 'days'),
+        'workdays').should.equal(-14)
+    })
   })
 })
