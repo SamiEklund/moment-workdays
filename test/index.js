@@ -1,6 +1,9 @@
 
 const moment = require('moment')
+const range = require('moment-range')
 const { extendMoment } = require('../')
+
+range.extendMoment(moment)
 
 describe('moment', () => {
   before(() => {
@@ -46,6 +49,44 @@ describe('moment', () => {
         'workdays').should.equal(-6)
       moment().day('Friday').diff(moment().day('Monday').subtract(14, 'days'),
         'workdays').should.equal(-14)
+    })
+
+    it('removes holidays from the resulting work days', () => {
+      const holiday1 = moment.range(moment().day('Tuesday'),
+        moment().day('Wednesday'))
+      const holiday2 = moment.range(moment().day('Thursday'),
+        moment().day('Friday'))
+      moment().day('Monday').diff(moment().day('Friday'),
+        'workdays', [ holiday1 ]).should.equal(2)
+      moment().day('Monday').diff(moment().day('Friday'),
+        'workdays', [ holiday2 ]).should.equal(2)
+      moment().day('Monday').diff(moment().day('Friday'),
+        'workdays', [ holiday1, holiday2 ]).should.equal(0)
+    })
+
+    it('does not remove unimportant holidays', () => {
+      const holiday = moment.range(moment().day('Saturday').subtract(7, 'days'),
+        moment().day('Sunday'))
+      moment().day('Monday').diff(moment().day('Friday').add(7, 'days'),
+        'workdays', [ holiday ]).should.equal(9)
+    })
+
+    it('does not remove holidays outside of the range', () => {
+      const holiday = moment.range(moment().day('Thursday'),
+        moment().day('Friday'))
+      moment().day('Monday').diff(moment().day('Wednesday'),
+        'workdays', [ holiday ]).should.equal(2)
+    })
+
+    it('removes holidays that intersect the range', () => {
+      const holiday1 = moment.range(moment().day('Thursday'),
+        moment().day('Friday').add(7, 'days'))
+      const holiday2 = moment.range(moment().day('Monday').subtract(7, 'days'),
+        moment().day('Wednesday'))
+      moment().day('Monday').diff(moment().day('Tuesday').add(7, 'days'),
+        'workdays', [ holiday1 ]).should.equal(2)
+      moment().day('Monday').diff(moment().day('Tuesday').add(7, 'days'),
+        'workdays', [ holiday2 ]).should.equal(4)
     })
   })
 })
