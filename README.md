@@ -44,3 +44,16 @@ const end = moment().day('Tuesday').subtract(7, 'days')
 start.diff(end, 'workdays')
 // -8
 ```
+
+## Holidays
+`moment-workdays` adds support for an additional, optional array of holiday ranges.
+The holidays should each be an instance of [moment-range](https://www.npmjs.com/package/moment-range).
+For example
+```js
+const holiday = moment.range('2017-12-10', '2017-12-30')
+const start = moment('2017-12-05')
+const end = moment('2017-01-04')
+
+start.diff(end, 'workdays', [ holiday ])
+// 7
+```
