@@ -1,4 +1,5 @@
 
+const should = require('chai').should()
 const moment = require('moment')
 const range = require('moment-range')
 const { extendMoment } = require('../')
@@ -27,7 +28,7 @@ describe('moment', () => {
       thisWeeksDay('Monday').add(4, 'workdays')
         .isSame(thisWeeksDay('Friday')).should.equal(true)
     })
-    
+
     it('adds work days correctly on weekends', () => {
       thisWeeksDay('Sunday').add(1, 'workdays')
         .isSame(thisWeeksDay('Monday')).should.equal(true)
@@ -48,9 +49,7 @@ describe('moment', () => {
         .isSame(fortnightsDay('Monday')).should.equal(true)
     })
 
-    it('adds negative work days', () => {
-      
-    })
+    it('adds negative work days', () => { })
 
     it('skips holidays when adding work days', () => {
       const holiday1 = moment.range(thisWeeksDay('Tuesday'), thisWeeksDay('Wednesday'))
