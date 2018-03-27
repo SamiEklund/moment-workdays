@@ -53,7 +53,47 @@ function workdaysAsDays (date, workdays) {
 }
 
 function addWorkDays (workdays, holidays = []) {
-  return this.add(workdaysAsDays(this, workdays), 'days')
+  let end = this.clone().add(workdaysAsDays(this, workdays), 'days')
+  let range = moment.range(this, end)
+  let newHolidays
+  let holidayAdditons
+
+  do {
+    holidayAdditons = 0
+    if (newHolidays) holidays = [ ...newHolidays ]
+    newHolidays = []
+
+    for (let holiday of holidays) {
+      if (!holiday) continue
+      const newHoliday = holiday.clone()
+      newHoliday.start.subtract(1, 'days')
+
+      const intersectingRange = range.intersect(newHoliday)
+      if (!intersectingRange) {
+        newHoliday.start.add(1, 'days')
+        newHolidays.push(newHoliday)
+        continue
+      }
+
+      const a1 = newHoliday.subtract(intersectingRange)
+      if (a1.length > 0) {
+        for (let i = 0; i < a1.length; i++) {
+          a1[i].start.add(1, 'days')
+        }
+
+        newHolidays = [...newHolidays, ...a1]
+      }
+
+      holidayAdditons += diff(intersectingRange)
+    }
+
+    if (holidayAdditons > 0) {
+      end = end.add(workdaysAsDays(end, holidayAdditons), 'days')
+      range = moment.range(this, end)
+    }
+  } while (holidayAdditons > 0)
+
+  return end
 }
 
 exports.extendMoment = moment => {
@@ -65,7 +105,7 @@ exports.extendMoment = moment => {
     }
     return diff.call(this, ...arguments)
   }
-  
+
   const add = moment.prototype.add
 
   moment.prototype.add = function (amount, unit, holidays) {

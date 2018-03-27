@@ -78,10 +78,8 @@ describe('moment', () => {
     it('skips holidays that intersect the range', () => {
       const holiday1 = moment.range(thisWeeksDay('Thursday'), nextWeeksDay('Friday'))
       const holiday2 = moment.range(thisWeeksDay('Monday').subtract(1, 'weeks'), thisWeeksDay('Wednesday'))
-      console.log('Holiday1 ', holiday1)
-      console.log('Holiday2 ', holiday2)
       thisWeeksDay('Monday').add(5, 'workdays', [ holiday1 ])
-        .isSame(fortnightsDay('Tuesday')).should.equal(true)
+        .isSame(fortnightsDay('Wednesday')).should.equal(true)
       thisWeeksDay('Monday').add(5, 'workdays', [ holiday2 ])
         .isSame(nextWeeksDay('Wednesday')).should.equal(true)
     })
